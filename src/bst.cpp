@@ -66,4 +66,41 @@ int size(node *node)
     else return 1 + size(node->left) + size(node->right);
 }
 
+// height()
+// Find the height of a given bst
+int height(node *node)
+{
+    if(node == nullptr) return 0;
+    else
+    {
+        int leftHeight = height(node->left) + 1;
+        int rightHeight = height(node->right) + 1;
+        return max(leftHeight,rightHeight);
+    }
+}
+
+// countTrees()
+// Given and integer N, count how many distinct bst's can be formed with 1..N
+// countTrees(1) = 1
+// countTrees(2) = 2
+// countTrees(3) = 5
+// countTrees(4) = 14
+int countTrees(int N)
+{
+    if(N <= 1) return 1;
+    else
+    {
+        int sum = 0;
+        int leftTrees, rightTrees, root;
+        //We make one value as the root and then recursively see how many values can be
+        //in the left and right subtrees
+        for(root=1; root <= N; ++root)
+        {
+            leftTrees = countTrees(root - 1);
+            rightTrees = countTrees(N - root);
+            sum += leftTrees * rightTrees;
+        }
+        return sum;
+    }
+}
 
